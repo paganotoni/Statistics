@@ -1,0 +1,42 @@
+
+T
+aT
+-- Tiempo para alguno de los dos equipos
+Accion: Se almacena 
+
+LIN
+aLIN
+-- Mostramos la Ventana de LineUp de alguno de los
+2 equipos
+Accion: Ninguno 
+
+C00:00
+aC00:00
+
+-- Cambios para alguno de los dos equipos
+Accion: Se modifican los jugadores en la rotacion actual
+
+*POINT+ IZQ
+*POINT+ DER
+*POINT- IZQ
+*POINT- DER
+-- Aumentamos el score para alguno de los 2 lados de la cancha.
+Accion: Visual, modificara la ventana de juego y causa efecto en el proximo fin de rally.
+
+*ROT- DER
+*ROT+ DER
+*ROT- IZQ
+*ROT+ IZQ
+-- Rota el equipo en la ventana de juego para causar alguno efecto en el proximo fin de rally
+
+*FRD
+*FRI
+-- fin del rally para alguno de los dos equipos
+Accion: Aumenta el score, y crea un nuevo rally.
+
+*CAM
+-- Cambia la posicion de los equipos.
+Accion: Modifica el set actual para causar efecto en el proximo rally.
+
+*REPORT
+
