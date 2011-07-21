@@ -4,7 +4,6 @@
  */
 package org.pagbel.statistics.action;
 
-import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -18,6 +17,7 @@ import javax.persistence.Temporal;
 import org.pagbel.statistics.engine.EndingAttributeCombination;
 import org.pagbel.statistics.game.Game;
 import org.pagbel.statistics.game.Partial;
+import org.pagbel.statistics.structure.Team;
 
 /**
  *
@@ -42,6 +42,10 @@ public class GameAction implements Serializable {
   @ManyToOne
   @JoinColumn(name = "partial_fk")
   private Partial partial;
+  
+  @ManyToOne
+  @JoinColumn(name = "team_fk")
+  private Team actionTeam;
   
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date dateCreated;
@@ -319,5 +323,13 @@ public class GameAction implements Serializable {
   
   public String getActionDetailsString(){
     return this.team + this.playerNumber + this.fundamental + this.evaluation + this.zones;
+  }
+  
+  public Team getActionTeam() {
+    return actionTeam;
+  }
+
+  public void setActionTeam(Team actionTeam) {
+    this.actionTeam = actionTeam;
   }
 }

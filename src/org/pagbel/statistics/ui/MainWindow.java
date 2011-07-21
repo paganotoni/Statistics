@@ -25,6 +25,7 @@ import javax.swing.event.MouseInputAdapter;
 import org.pagbel.statistics.engine.GameHolder;
 import org.pagbel.statistics.game.Game;
 import org.pagbel.statistics.hibernate.DatabaseOperator;
+import org.pagbel.statistics.reports.BasicReportsService;
 import org.pagbel.statistics.structure.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.pagbel.statistics.ui.action.ActionList;
@@ -34,6 +35,7 @@ import org.pagbel.statistics.ui.game.CreateGame;
 import org.pagbel.statistics.ui.game.DefineRotations;
 import org.pagbel.statistics.ui.game.GameList;
 import org.pagbel.statistics.ui.game.GameStatus;
+import org.pagbel.statistics.ui.reports.GameReport;
 import org.pagbel.statistics.ui.structure.CreatePlayer;
 import org.pagbel.statistics.ui.structure.CreateTournament;
 import org.pagbel.statistics.ui.structure.PlayerList;
@@ -78,6 +80,13 @@ public class MainWindow extends javax.swing.JFrame {
   @Autowired
   CreatePlayer createPlayerIF;
   
+  @Autowired
+  GameReport gameReportIF;
+  
+  //TEMPORAL
+  @Autowired
+  BasicReportsService basicReportsService;
+  
   /** Creates new form MainWindow */
   public MainWindow() {
     this.initializeLookAndFeel();
@@ -115,6 +124,8 @@ public class MainWindow extends javax.swing.JFrame {
     teamsListMenu = new javax.swing.JMenuItem();
     gamesListMenu = new javax.swing.JMenuItem();
     playerListMenu = new javax.swing.JMenuItem();
+    reportsMenu = new javax.swing.JMenu();
+    GameReportMenuItem = new javax.swing.JMenuItem();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setTitle("Volleyball Statistics");
@@ -231,7 +242,7 @@ public class MainWindow extends javax.swing.JFrame {
     menuBar.add(fileMenu);
 
     editMenu.setText("Edit");
-    editMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12));
+    editMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
 
     tournamentsListMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
     tournamentsListMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12));
@@ -264,7 +275,7 @@ public class MainWindow extends javax.swing.JFrame {
     editMenu.add(gamesListMenu);
 
     playerListMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-    playerListMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+    playerListMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12));
     playerListMenu.setText("Players");
     playerListMenu.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,6 +285,20 @@ public class MainWindow extends javax.swing.JFrame {
     editMenu.add(playerListMenu);
 
     menuBar.add(editMenu);
+
+    reportsMenu.setText("Reports");
+    reportsMenu.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+
+    GameReportMenuItem.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+    GameReportMenuItem.setText("Game Report");
+    GameReportMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        GameReportMenuItemActionPerformed(evt);
+      }
+    });
+    reportsMenu.add(GameReportMenuItem);
+
+    menuBar.add(reportsMenu);
 
     setJMenuBar(menuBar);
 
@@ -368,6 +393,13 @@ public class MainWindow extends javax.swing.JFrame {
   private void playerListMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playerListMenuActionPerformed
     this.showPlayerList();
   }//GEN-LAST:event_playerListMenuActionPerformed
+
+  private void GameReportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GameReportMenuItemActionPerformed
+    // here we should handle reports UI
+    this.gameReportIF.dispose();
+    this.showInternalFrame(gameReportIF, true );
+
+  }//GEN-LAST:event_GameReportMenuItemActionPerformed
 
   public void showCreateGame(Boolean shouldLoad ) {
     this.showInternalFrame(createGameIF, true);
@@ -514,6 +546,7 @@ public class MainWindow extends javax.swing.JFrame {
     return this.desktopPane;
   }
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JMenuItem GameReportMenuItem;
   private javax.swing.JButton btnFundamentals;
   private javax.swing.JButton btnGames;
   private javax.swing.JButton btnNewGame;
@@ -529,6 +562,7 @@ public class MainWindow extends javax.swing.JFrame {
   private javax.swing.JMenuItem newGameMenu;
   private javax.swing.JMenuItem newTeamMenu;
   private javax.swing.JMenuItem playerListMenu;
+  private javax.swing.JMenu reportsMenu;
   private javax.swing.JToolBar tbaElements;
   private javax.swing.JToolBar tbaNuevos;
   private javax.swing.JToolBar tbarArchive;

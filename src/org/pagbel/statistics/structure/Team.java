@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.pagbel.statistics.action.GameAction;
 
 /**
  *
@@ -27,6 +28,9 @@ public class Team implements Serializable {
   
   @OneToMany(mappedBy="team")
   Set<Player> players;
+  
+  @OneToMany(mappedBy="team")
+  Set<GameAction> actions;
   
   private String name;
   private String code;
@@ -68,6 +72,12 @@ public class Team implements Serializable {
   public String toString(){
     return this.code + " - " + this.name;
   }
+
+  public Set<Player> getPlayers() {
+    return players;
+  }
+  
+  
 
   @Override
   public boolean equals(Object obj) {

@@ -60,9 +60,16 @@ public class ActionList extends javax.swing.JInternalFrame {
       GameAction ga = (GameAction) arrAction[i];
       tableData[i][0] = String.valueOf(i + 1);
       tableData[i][1] = ga.getCompleteCode();
-      tableData[i][4] = ga.getService() ? "S" : "R";
-      tableData[i][2] = ga.getSelfPasserPosition().toString();
-      tableData[i][3] = ga.getOpponentPasserPosition().toString();
+      
+      if( ga.getWrongCode() == Boolean.FALSE ){
+        tableData[i][4] = ga.getService() ? "S" : "R";
+        tableData[i][2] = ga.getSelfPasserPosition().toString();
+        tableData[i][3] = ga.getOpponentPasserPosition().toString();
+      }else{
+        tableData[i][4] = "x";
+        tableData[i][2] = "x";
+        tableData[i][3] = "x";
+      }
     }
 
     tblActions.setModel(new javax.swing.table.DefaultTableModel(tableData, new String[]{"#", "CODE", "P", "aP", "S/R"}));

@@ -4,7 +4,7 @@
  */
 package org.pagbel.statistics.configuration;
 
-import java.util.Properties;
+
 import org.pagbel.statistics.engine.ActionProcessor;
 import org.pagbel.statistics.engine.CompoundActionGenerator;
 import org.pagbel.statistics.engine.GameHolder;
@@ -13,9 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
-import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 
 
 /**
@@ -29,7 +26,9 @@ import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
          UIConfig.class,
          HibernateTemplateConfig.class,
          TransactionManagerConfig.class ,
-         TransactionProxyConfig.class })
+         TransactionProxyConfig.class,
+         ReportsConfig.class
+})
 @ImportResource("tx.xml")
 public class ApplicationConfig {
   

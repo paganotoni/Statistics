@@ -8,10 +8,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A simple class to handle transaction proxy 
@@ -25,7 +23,11 @@ public class DatabaseOperator {
   
   public void saveOrUpdate(Object o){
     Session session = sessionFactory.openSession();
+    
+    Transaction tx = session.beginTransaction();
     session.saveOrUpdate(o);
+    tx.commit();
+    
     session.flush();
     session.close();
   }
@@ -33,14 +35,22 @@ public class DatabaseOperator {
 
   public void save( Object o ){
     Session session = sessionFactory.openSession();
+    
+    Transaction tx = session.beginTransaction();
     session.save(o);
+    tx.commit();
+    
     session.flush();
     session.close();
   }
 
   public void update( Object object){
     Session session = sessionFactory.openSession();
+    
+    Transaction tx = session.beginTransaction();
     session.update(object);
+    tx.commit();
+    
     session.flush();
     session.close();
   }
@@ -48,7 +58,11 @@ public class DatabaseOperator {
 
  public void delete( Object o ){
     Session session = sessionFactory.openSession();
+    
+    Transaction tx = session.beginTransaction();
     session.delete(o);
+    tx.commit();
+    
     session.flush();
     session.close();
   }

@@ -168,6 +168,16 @@ public class Game implements Serializable {
     return actions;
   }
 
+  public Team getOpponentTeam() {
+    return opponentTeam;
+  }
+
+  public Team getSelfTeam() {
+    return selfTeam;
+  }
+  
+  
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {

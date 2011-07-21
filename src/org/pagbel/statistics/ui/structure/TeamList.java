@@ -226,7 +226,7 @@ public class TeamList extends javax.swing.JInternalFrame {
       playerListIF.setSelectedTeam( team );
       mainWindow.showPlayerList();
     }else{
-      //TODO: Message
+      JOptionPane.showInternalMessageDialog( mainWindow.getDesktopPane(), "Please select the team you would like to edit players." );
     }
     
   }//GEN-LAST:event_btnPlayersActionPerformed

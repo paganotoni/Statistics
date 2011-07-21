@@ -26,7 +26,6 @@ public class ActionProcessor {
   GameHolder gameHolder;
   @Autowired
   DatabaseOperator databaseOperator;
-  
   @Autowired
   GameStatus status;
   @Autowired
@@ -50,6 +49,8 @@ public class ActionProcessor {
    * - Teams rotations  DONE
    * - Partial State if maxPoint reached ( or diff) DONE
    * - Game state if maxSets reached  DONE
+   * - Needs to detect if game has ended and depending on it accept or not
+   *   new actions.
    * 
    * @param action 
    */
@@ -61,15 +62,22 @@ public class ActionProcessor {
     action.setSelfTeamRotation(currentPartial.getSelfTeamRotation());
     action.setOpponentTeamRotation(currentPartial.getOpponentTeamRotation());
 
-    action.setGame(gameHolder.getCurrentGame());
+    Game currentGame = gameHolder.getCurrentGame();
+    
+    action.setGame(currentGame);
     action.setPartial(currentPartial);
-
+    action.setActionTeam( action.getTeam().equals( "*" ) ? currentGame.getSelfTeam() : currentGame.getOpponentTeam()  );
+    
     action.setOpponentTeamPoints(currentPartial.getOpponentPoints());
     action.setSelfTeamPoints(currentPartial.getSelfPoints());
-    action.setService(this.isService(currentPartial, action));
-
-    databaseOperator.saveOrUpdate(action);
     
+    
+    if (action.getWrongCode() == Boolean.FALSE) {
+      action.setService(this.isService(currentPartial, action));
+    }
+    
+    databaseOperator.saveOrUpdate(action);
+
     if (applySideEffects == Boolean.TRUE) {
       if (!action.getWrongCode() && action.isEnding()) {
         // Point Assignation logic
@@ -85,11 +93,13 @@ public class ActionProcessor {
 
         //Partial Ending logic
         if (isFinishedPartial()) {
+          status.updateStatus();
+
           finishCurrentPartial();
           if (isFinishedGame()) {
             finishGame();
             JOptionPane.showInternalMessageDialog(mainWindow.getDesktopPane(), "Game has Ended");
-            
+
           } else {
 
             mainWindow.showDefineRotations();
@@ -100,7 +110,8 @@ public class ActionProcessor {
         }
       }
     }
-
+    
+    
 
     databaseOperator.saveOrUpdate(currentPartial);
     databaseOperator.saveOrUpdate(gameHolder.getCurrentGame());

@@ -15,6 +15,7 @@ import org.pagbel.statistics.ui.game.DefineRotations;
 import org.pagbel.statistics.ui.game.GameList;
 import org.pagbel.statistics.ui.game.GameStatus;
 import org.pagbel.statistics.ui.MainWindow;
+import org.pagbel.statistics.ui.reports.GameReport;
 import org.pagbel.statistics.ui.structure.CreatePlayer;
 import org.pagbel.statistics.ui.structure.CreateTournament;
 import org.pagbel.statistics.ui.structure.PlayerList;
@@ -82,5 +83,9 @@ public class UIConfig {
   
   public @Bean CreatePlayer getCreatePlayer(){
     return new CreatePlayer();
+  }
+  
+  public @Bean GameReport getGameReport(){
+    return new GameReport();
   }
 }
