@@ -24,7 +24,7 @@ import org.pagbel.statistics.structure.Team;
  * @author apagano
  */
 @Entity
-@Table(name = "st_actions")
+@Table(name = "st_action")
 public class GameAction implements Serializable {
 
   static final String DEFAULT_PLAYER_NUMBER = "99";
@@ -49,8 +49,10 @@ public class GameAction implements Serializable {
   
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date dateCreated;
+  
   private String completeCode;
   private Boolean wrongCode;
+  
   private String team;  //should be the real team
   private String playerNumber;
   private String fundamental;

@@ -11,7 +11,8 @@ package org.pagbel.statistics.game;
 public enum GameConfiguration {
   
   THREE_OF_FIVE( 3, new Integer[]{ 25, 25, 25, 25, 15}, "3 of 5" ), 
-  TWO_OF_THREE( 2, new Integer[]{ 25, 25, 15 } , "2 of 3" );
+  TWO_OF_THREE( 2, new Integer[]{ 25, 25, 15 } , "2 of 3" ),
+  TRAINING( 1, new Integer[]{ Integer.MAX_VALUE }, "Training Session");
   
   final Integer[] partialsMaxPoints;
   final Integer maxPartials;

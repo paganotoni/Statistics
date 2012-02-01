@@ -20,10 +20,8 @@ public class DatasourceConfig {
   @Bean
   public ComboPooledDataSource getDataSource() throws PropertyVetoException{
      ComboPooledDataSource datasource = new ComboPooledDataSource();
-     datasource.setDriverClass("org.h2.Driver");
-     datasource.setJdbcUrl("jdbc:h2:/statistics");
+     datasource.setDriverClass("org.apache.derby.jdbc.EmbeddedDriver");
+     datasource.setJdbcUrl("jdbc:derby:statistics;create=true");
      return datasource;
   }
-  
-  
 }

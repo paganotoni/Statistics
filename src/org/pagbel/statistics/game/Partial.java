@@ -8,17 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import org.pagbel.statistics.action.GameAction;
 
 /**
@@ -26,48 +16,40 @@ import org.pagbel.statistics.action.GameAction;
  * @author apagano
  */
 @Entity
-@Table(name="st_partials")
-public class Partial implements Serializable{
-  
-  public enum PartialResult{
+@Table(name = "st_partials")
+public class Partial implements Serializable {
+
+  public enum PartialResult {
     SELF_TEAM_WIN, OPPONENT_TEAM_WIN, GOING;
   }
   
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   Long id;
-  
   @ManyToOne
-  @JoinColumn(name="game_id")
+  @JoinColumn(name = "game_id")
   Game game;
-  
-  @OneToMany(mappedBy="partial")
+  @OneToMany(mappedBy = "partial", cascade=CascadeType.ALL)
   Set<GameAction> actions;
-  
   Integer selfPoints;
   Integer opponentPoints;
   Integer maxPoints;
-  
   String[] selfTeamRotation;
   String[] opponentTeamRotation;
-  
   Integer selfPasserRotationIndex;
   Integer opponentPasserRotationIndex;
-  
   String selfPasser;
   String opponentPasser;
-  
   Boolean selfTeamOnService = Boolean.TRUE;
   Boolean selfTeamLeftTop = Boolean.TRUE;
   Boolean horizontalOrientation = Boolean.TRUE;
-  
   @Enumerated(EnumType.STRING)
   PartialResult result = PartialResult.GOING;
 
   public Partial() {
   }
-  
-  public Partial( Integer maxPoints ){
+
+  public Partial(Integer maxPoints) {
     this.selfPoints = 0;
     this.opponentPoints = 0;
     this.maxPoints = maxPoints;
@@ -76,12 +58,12 @@ public class Partial implements Serializable{
   public void setResult(PartialResult result) {
     this.result = result;
   }
-  
-  public void incrementSelfPoints( Integer quantity ){
+
+  public void incrementSelfPoints(Integer quantity) {
     this.selfPoints += quantity;
   }
-  
-  public void incrementOpponentPoints( Integer quantity ){
+
+  public void incrementOpponentPoints(Integer quantity) {
     this.opponentPoints += quantity;
   }
 
@@ -152,66 +134,74 @@ public class Partial implements Serializable{
   public void setSelfTeamRotation(String[] selfTeamRotation) {
     this.selfTeamRotation = selfTeamRotation;
   }
-  
-  public void rotateSelfTeam(){
-    this.setSelfTeamRotation( rotateRotationOrder(this.selfTeamRotation) );
+
+  public void rotateSelfTeam() {
+    this.setSelfTeamRotation(rotateRotationOrder(this.selfTeamRotation));
   }
-  
-  public void rotateOpponentTeam(){
-    this.setOpponentTeamRotation( rotateRotationOrder(this.opponentTeamRotation) );
+
+  public void rotateOpponentTeam() {
+    this.setOpponentTeamRotation(rotateRotationOrder(this.opponentTeamRotation));
   }
-  
-  public void backSelfTeamRotation(){
-    this.setSelfTeamRotation( rotateRotationOrderNegative( this.selfTeamRotation ));
+
+  public void backSelfTeamRotation() {
+    this.setSelfTeamRotation(rotateRotationOrderNegative(this.selfTeamRotation));
   }
-  
-  public void backOpponentTeamRotation(){
-    this.setOpponentTeamRotation( rotateRotationOrderNegative( this.opponentTeamRotation ));
+
+  public void backOpponentTeamRotation() {
+    this.setOpponentTeamRotation(rotateRotationOrderNegative(this.opponentTeamRotation));
   }
-  
-  public String getSelfRotationString(){
-    return getStorageFormattedRotation( this.selfTeamRotation );
+
+  public String getSelfRotationString() {
+    return getStorageFormattedRotation(this.selfTeamRotation);
   }
-  
-  public String getOpponentRotationString(){
-    return getStorageFormattedRotation( this.opponentTeamRotation );
+
+  public String getOpponentRotationString() {
+    return getStorageFormattedRotation(this.opponentTeamRotation);
   }
-  
-  public String getStorageFormattedRotation( String[] rotation ){
+
+  public String getStorageFormattedRotation(String[] rotation) {
     String result = "";
-    
-    if( rotation.length > 0 ){
+
+    if (rotation.length > 0) {
       result += rotation[0];
-      for( int index = 1 ; index < result.length(); index++ ){
-        result += ","+rotation[index].trim();
+      for (int index = 1; index < result.length(); index++) {
+        result += "," + rotation[index].trim();
       }
     }
-    
+
     return result;
   }
 
-  public String[] rotateRotationOrder( String[] rotation ){
-    String[] copy = rotation.clone();
-     
-    for( int index =0;index < rotation.length ; index ++ ){
-      copy[index] = index == (rotation.length -1) ? rotation[0] : rotation[index+1] ;
+  public String[] rotateRotationOrder(String[] rotation) {
+    if (rotation != null) {
+      String[] copy = rotation.clone();
+
+      for (int index = 0; index < rotation.length; index++) {
+        copy[index] = index == (rotation.length - 1) ? rotation[0] : rotation[index + 1];
+      }
+
+      return copy;
+    } else {
+      return rotation;
     }
-    
-    return copy;
   }
-  
-   public String[] rotateRotationOrderNegative( String[] rotation ){
-    String[] copy = rotation.clone();
-     
-    for( int index =0;index < rotation.length ; index ++ ){
-      copy[index] = index == 0 ? rotation[rotation.length -1 ] : rotation[index-1] ;
+
+  public String[] rotateRotationOrderNegative(String[] rotation) {
+    if (rotation != null) {
+      String[] copy = rotation.clone();
+
+      for (int index = 0; index < rotation.length; index++) {
+        copy[index] = index == 0 ? rotation[rotation.length - 1] : rotation[index - 1];
+      }
+
+      return copy;
+    } else {
+      return rotation;
     }
-    
-    return copy;
   }
-  
-  public String getState(){
-    return "self => "+selfPoints+", opponent => "+opponentPoints +", selfService => " + this.selfTeamOnService  + ", partial => "+ this;
+
+  public String getState() {
+    return "self => " + selfPoints + ", opponent => " + opponentPoints + ", selfService => " + this.selfTeamOnService + ", partial => " + this;
   }
 
   public Boolean getSelfTeamLeftTop() {
@@ -230,7 +220,4 @@ public class Partial implements Serializable{
   public void setHorizontalOrientation(Boolean horizontalOrientation) {
     this.horizontalOrientation = horizontalOrientation;
   }
-  
-  
-  
 }

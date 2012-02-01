@@ -8,14 +8,14 @@ import javax.swing.JOptionPane;
 import org.pagbel.statistics.action.GameAction;
 import org.pagbel.statistics.game.Game;
 import org.pagbel.statistics.game.Game.GameResult;
+import org.pagbel.statistics.game.GameConfiguration;
 import org.pagbel.statistics.game.Partial;
 import org.pagbel.statistics.game.Partial.PartialResult;
 import org.pagbel.statistics.hibernate.DatabaseOperator;
 import org.pagbel.statistics.ui.MainWindow;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.pagbel.statistics.ui.action.ActionList;
 import org.pagbel.statistics.ui.game.GameStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -27,7 +27,7 @@ public class ActionProcessor {
   @Autowired
   DatabaseOperator databaseOperator;
   @Autowired
-  GameStatus status;
+  GameStatus gameStatus;
   @Autowired
   ActionList actionList;
   @Autowired
@@ -66,7 +66,10 @@ public class ActionProcessor {
     
     action.setGame(currentGame);
     action.setPartial(currentPartial);
-    action.setActionTeam( action.getTeam().equals( "*" ) ? currentGame.getSelfTeam() : currentGame.getOpponentTeam()  );
+    
+    if( action.getWrongCode() == false ) {
+      action.setActionTeam( action.getTeam().equals( "*" ) ? currentGame.getSelfTeam() : currentGame.getOpponentTeam()  );
+    }
     
     action.setOpponentTeamPoints(currentPartial.getOpponentPoints());
     action.setSelfTeamPoints(currentPartial.getSelfPoints());
@@ -77,12 +80,16 @@ public class ActionProcessor {
     }
     
     databaseOperator.saveOrUpdate(action);
-
-    if (applySideEffects == Boolean.TRUE) {
+    
+    //Side Operators should not apply if GameConfiguration says its a Training Session.
+     applySideEffects = applySideEffects && currentGame.getGameConfiguration() != GameConfiguration.TRAINING;
+    
+    if( applySideEffects == Boolean.TRUE ) {
       if (!action.getWrongCode() && action.isEnding()) {
+        
         // Point Assignation logic
         Boolean selfPoint = isSelfPoint(action);
-        alterPartialPoints(selfPoint);
+        alterPartialPoints( selfPoint );
 
         // Service change logic
         Boolean serviceChangeRequired = isServiceChange(selfPoint);
@@ -93,7 +100,7 @@ public class ActionProcessor {
 
         //Partial Ending logic
         if (isFinishedPartial()) {
-          status.updateStatus();
+          gameStatus.updateStatus();
 
           finishCurrentPartial();
           if (isFinishedGame()) {
@@ -116,7 +123,7 @@ public class ActionProcessor {
     databaseOperator.saveOrUpdate(currentPartial);
     databaseOperator.saveOrUpdate(gameHolder.getCurrentGame());
 
-    status.updateStatus();
+    gameStatus.updateStatus();
     actionList.reloadActionList();
     //Reload Game status
   }
@@ -139,6 +146,8 @@ public class ActionProcessor {
    */
   public void rotateServiceTeam() {
     Partial currentPartial = this.getCurrentGame().getCurrentPartial();
+    
+    //Should determine if team rotations have been set.
     if (currentPartial.isSelfTeamOnService()) {
       System.out.println("New Rotation for: " + getCurrentGame().getSelfCode());
       currentPartial.rotateSelfTeam();

@@ -40,9 +40,7 @@ public class Game implements Serializable {
   @GeneratedValue(strategy= GenerationType.AUTO)
   Long id;
   
-  @ManyToOne
-  @JoinColumn(name="fk_tournament")
-  Tournament tournament;
+  String tournament;
   
   @ManyToOne
   @JoinColumn(name="self_team_id")
@@ -70,7 +68,7 @@ public class Game implements Serializable {
   String city;
   String country;
   
-  @OneToMany(cascade= CascadeType.ALL, fetch=FetchType.EAGER)
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
   Set<Partial> partials = new HashSet<Partial>();
 
   public Game() {
@@ -176,7 +174,13 @@ public class Game implements Serializable {
     return selfTeam;
   }
   
-  
+  public String getTournament() {
+    return tournament;
+  }
+
+  public void setTournament(String tournament) {
+    this.tournament = tournament;
+  }  
 
   @Override
   public boolean equals(Object obj) {

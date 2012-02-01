@@ -22,15 +22,15 @@ public class HibernateConfig {
   @Bean
   public SessionFactory getSessionFactory(){
     org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-    configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
-    configuration.setProperty("hibernate.connection.url", "jdbc:h2:~/data/statistics;"/*jdbc:h2:tcp://localhost/~/statistics"*/);
-    configuration.setProperty("hibernate.connection.user", "sa");
+    configuration.setProperty("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver");
+    configuration.setProperty("hibernate.connection.url", "jdbc:derby:statistics;create=true"/*jdbc:h2:tcp://localhost/~/statistics"*/);
+    configuration.setProperty("hibernate.connection.user", "");
     configuration.setProperty("hibernate.connection.password", "");
     
     //Use to play with this param to update database :)
     configuration.setProperty("hibernate.hbm2ddl.auto", "update");
     configuration.setProperty("hibernate.show_sql", "true" );
-    configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+    configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
     configuration.setProperty("hibernate.current_session_context_class", "org.hibernate.context.ThreadLocalSessionContext");
     
     configuration.addAnnotatedClass(org.pagbel.statistics.structure.Team.class);
