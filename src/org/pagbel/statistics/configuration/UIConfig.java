@@ -4,23 +4,14 @@
  */
 package org.pagbel.statistics.configuration;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.pagbel.statistics.ui.MainWindow;
 import org.pagbel.statistics.ui.action.ActionList;
 import org.pagbel.statistics.ui.action.EditAction;
-import org.pagbel.statistics.ui.game.CommandEditor;
-import org.pagbel.statistics.ui.game.CreateGame;
-import org.pagbel.statistics.ui.structure.CreateTeam;
-import org.pagbel.statistics.ui.game.DefineRotations;
-import org.pagbel.statistics.ui.game.GameList;
-import org.pagbel.statistics.ui.game.GameStatus;
-import org.pagbel.statistics.ui.MainWindow;
+import org.pagbel.statistics.ui.game.*;
 import org.pagbel.statistics.ui.reports.GameReport;
-import org.pagbel.statistics.ui.structure.CreatePlayer;
-import org.pagbel.statistics.ui.structure.CreateTournament;
-import org.pagbel.statistics.ui.structure.PlayerList;
-import org.pagbel.statistics.ui.structure.TeamList;
-import org.pagbel.statistics.ui.structure.TournamentList;
+import org.pagbel.statistics.ui.structure.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  *
@@ -49,10 +40,18 @@ public class UIConfig {
     return new TeamList();
   }
   
-    public @Bean GameStatus getStatusWindow(){
-    return new GameStatus();
+  public @Bean GameHorizontalStatus getStatusWindow(){
+    return new GameHorizontalStatus();
+  }
+    
+  public @Bean GameVerticalStatus getVerticalStatusWindow(){
+    return new GameVerticalStatus();
   }
   
+  public @Bean GameStatusOperations getGameStatusOperations(){
+    return new GameStatusOperations();
+  }
+
   public @Bean GameList getGameList(){
     return new GameList();
   }

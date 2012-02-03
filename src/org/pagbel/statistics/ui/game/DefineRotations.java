@@ -10,11 +10,11 @@
  */
 package org.pagbel.statistics.ui.game;
 
-import org.pagbel.statistics.ui.MainWindow;
 import org.pagbel.statistics.engine.GameHolder;
 import org.pagbel.statistics.game.Game;
 import org.pagbel.statistics.game.Partial;
 import org.pagbel.statistics.hibernate.DatabaseOperator;
+import org.pagbel.statistics.ui.MainWindow;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

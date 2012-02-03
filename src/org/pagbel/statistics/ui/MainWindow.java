@@ -30,11 +30,7 @@ import org.pagbel.statistics.structure.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.pagbel.statistics.ui.action.ActionList;
 import org.pagbel.statistics.ui.action.EditAction;
-import org.pagbel.statistics.ui.game.CommandEditor;
-import org.pagbel.statistics.ui.game.CreateGame;
-import org.pagbel.statistics.ui.game.DefineRotations;
-import org.pagbel.statistics.ui.game.GameList;
-import org.pagbel.statistics.ui.game.GameStatus;
+import org.pagbel.statistics.ui.game.*;
 import org.pagbel.statistics.ui.reports.GameReport;
 import org.pagbel.statistics.ui.structure.CreatePlayer;
 import org.pagbel.statistics.ui.structure.CreateTournament;
@@ -63,7 +59,9 @@ public class MainWindow extends javax.swing.JFrame {
   @Autowired
   CommandEditor commandEditorIF;
   @Autowired
-  GameStatus statusIF;
+  GameHorizontalStatus horizontalStatusIF;
+  @Autowired
+  GameVerticalStatus verticalStatusIF;
   @Autowired
   ActionList actionListIF;
   @Autowired
@@ -437,11 +435,25 @@ public class MainWindow extends javax.swing.JFrame {
   }
 
   public void showStatus() {
-    this.showInternalFrame(statusIF, false );
+    
+    horizontalStatusIF.setVisible(false);
+    verticalStatusIF.setVisible(false);
+
+    boolean horizontalOriented = this.gameHolder.getCurrentGame().getCurrentPartial().getHorizontalOrientation();
+    
+    this.showInternalFrame(horizontalStatusIF, false);
+    this.showInternalFrame(verticalStatusIF, false);
+    
+    if (horizontalOriented) {
+      verticalStatusIF.setVisible(false);
+    } else {
+      horizontalStatusIF.setVisible(false);
+    }
   }
 
   public void uptateStatus() {
-    statusIF.updateStatus();
+    horizontalStatusIF.updateStatus();
+    verticalStatusIF.updateStatus();
   }
 
   private void addToDesktopPane(JInternalFrame internal) {

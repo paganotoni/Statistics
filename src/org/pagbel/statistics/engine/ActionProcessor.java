@@ -14,7 +14,7 @@ import org.pagbel.statistics.game.Partial.PartialResult;
 import org.pagbel.statistics.hibernate.DatabaseOperator;
 import org.pagbel.statistics.ui.MainWindow;
 import org.pagbel.statistics.ui.action.ActionList;
-import org.pagbel.statistics.ui.game.GameStatus;
+import org.pagbel.statistics.ui.game.GameHorizontalStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -27,7 +27,7 @@ public class ActionProcessor {
   @Autowired
   DatabaseOperator databaseOperator;
   @Autowired
-  GameStatus gameStatus;
+  GameHorizontalStatus gameStatus;
   @Autowired
   ActionList actionList;
   @Autowired

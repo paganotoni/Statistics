@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Jan 31 23:55:00 COT 2012:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0135-3744-0a7e-000004b36938 
+Thu Feb 02 23:54:05 COT 2012:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0135-418f-ecc0-000004a9df08 
 on database directory /Users/antoniopagano/Projects/Statistics/statistics  with class loader sun.misc.Launcher$AppClassLoader@63c78e57 
 Loaded from file:/Users/antoniopagano/Projects/Statistics/libs/derby.jar
 java.vendor=Apple Inc.

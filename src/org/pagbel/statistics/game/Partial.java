@@ -5,8 +5,6 @@
 package org.pagbel.statistics.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.*;
 import org.pagbel.statistics.action.GameAction;
@@ -60,11 +58,17 @@ public class Partial implements Serializable {
   }
 
   public void incrementSelfPoints(Integer quantity) {
-    this.selfPoints += quantity;
+     Integer result = this.selfPoints + quantity;
+     if( result >= 0 ){
+       this.selfPoints = result;
+     }
   }
 
   public void incrementOpponentPoints(Integer quantity) {
-    this.opponentPoints += quantity;
+    Integer result = this.opponentPoints + quantity;
+    if( result >= 0 ){
+      this.opponentPoints = result;
+    }
   }
 
   public Boolean isSelfTeamOnService() {
