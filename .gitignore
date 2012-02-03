@@ -1,3 +1,4 @@
 /build/
 /statistics/
 .DS_Store
+*.class
