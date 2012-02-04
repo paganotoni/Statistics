@@ -17,6 +17,8 @@ public class CompoundActionGenerator extends SequenceOperator {
 
   @Autowired
   ActionGenerator actionGenerator;
+  
+  //TODO: Later will come from Database
   final static String technicalSequenceOrder = "SRPABD";
   final static String passingInitialActions = "SA";
   final static String[] continuationFundamentals = new String[]{"SR", "AB", "PA", "AD"};

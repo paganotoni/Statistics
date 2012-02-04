@@ -227,11 +227,11 @@ public class EditAction extends javax.swing.JInternalFrame {
     selectedAction.setTeam( this.cboTeam.getSelectedItem().toString() );
     selectedAction.setFundamental( this.cboFundamental.getSelectedItem().toString());
     selectedAction.setEvaluation( this.cboEvaluation.getSelectedItem().toString() );
-    
     selectedAction.setPlayerNumber( this.txtPlayerNumber.getText() );
     selectedAction.setZones( this.txtZones.getText() );
-    
     selectedAction.setCompleteCode(selectedAction.getCodeByActionParts());
+    
+    // TODO: Evaluate the action again and set it to correct or incorrect.
     
     databaseOperator.saveOrUpdate( selectedAction );
     actionList.reloadActionList();

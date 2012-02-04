@@ -48,7 +48,7 @@ public class GameAction implements Serializable {
   private Team actionTeam;
   
   @Temporal(javax.persistence.TemporalType.DATE)
-  private Date dateCreated;
+  private Date dateCreated = new Date();
   
   private String completeCode;
   private Boolean wrongCode;
@@ -67,6 +67,7 @@ public class GameAction implements Serializable {
   private Boolean service;
 
   public GameAction() {
+    
   }
 
   public GameAction(String completeCode) {
